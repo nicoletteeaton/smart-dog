@@ -1,7 +1,7 @@
 import csv
 import numpy
 import pylab as p
-f = open('Canonpts.txt', 'rb')
+#f = open('Canonpts.txt', 'rb')
 #reader = csv.reader(f)
 #eRegular = []
 #eJumpers = []
