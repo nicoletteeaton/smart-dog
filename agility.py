@@ -103,7 +103,7 @@ def classSort(filename, class_type):
     		elif "N" in class_level:
     			Novice.append(class_level)
     y = len(Novice), len(Open), len(Elite)
-    group_labels = ['Elite ' + class_type.title(), 'Open ' + class_type.title(), 'Novice ' + class_type.title()]
+    group_labels = ['Novice ' + class_type.title(), 'Open ' + class_type.title(), 'Elite ' + class_type.title()]
     return barPlot (y, group_labels)
 
 
