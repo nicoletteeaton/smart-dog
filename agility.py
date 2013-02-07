@@ -1,6 +1,7 @@
 import csv
 import numpy
 import pylab as p
+import time
 
 #for row in reader:
 	#points_earned = row[0]
@@ -10,6 +11,7 @@ import pylab as p
 	#date_earned = row[4]
 	#trial = row[8]
 filename = "Canonpts.txt"
+dog_name = "Canon"
 	
 
 def barPlot(y, group_labels):
@@ -24,7 +26,7 @@ def barPlot(y, group_labels):
 	ax.set_ylabel("# of Qs")
 	ax.set_xticks(ind)
 	ax.set_xticklabels(group_labels)
-	p.title("Canon" + "'s" + " Qs")
+	p.title(dog_name + "'s" + " Qs")
 	fig.autofmt_xdate()
 	p.show()
 	
@@ -272,6 +274,7 @@ def nadacYear(filename, start_year, end_year):
 	
 	
 	
+
 #nadacYear(filename, 2012, 2013)
 
 
@@ -374,7 +377,7 @@ def lifetimeSort(filename):
 	
 
 #lifetimeSort(filename)
-	
+
 	
 
 	
