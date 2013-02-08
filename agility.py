@@ -2,6 +2,7 @@ import csv
 import numpy
 import pylab as p
 import time
+from pointsrequest import *
 
 #for row in reader:
 	#points_earned = row[0]
@@ -10,7 +11,7 @@ import time
 	#title = row[3]
 	#date_earned = row[4]
 	#trial = row[8]
-filename = "Canonpts.txt"
+filename = "points.csv"
 dog_name = "Canon"
 	
 
@@ -69,7 +70,7 @@ def levelSort(filename,level):
 	return barPlot(y, group_labels)
 
 
-#levelSort(filename, "U")
+#levelSort(filename, "E")
 
 
 
