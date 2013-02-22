@@ -11,7 +11,7 @@ from pointsrequest import *
 	#title = row[3]
 	#date_earned = row[4]
 	#trial = row[8]
-filename = "points.csv"
+filename = "point.csv"
 dog_name = "Canon"
 	
 
@@ -23,12 +23,17 @@ def barPlot(y, group_labels):
 	ax = fig.add_subplot(1,1,1)
 	N = len(y)
 	ind = range(N)
-	ax.bar(ind, y, facecolor='blue', align='center')
+	barChart = ax.bar(ind, y, facecolor='blue', align='center')
 	ax.set_ylabel("# of Qs")
 	ax.set_xticks(ind)
 	ax.set_xticklabels(group_labels)
 	p.title(dog_name + "'s" + " Qs")
 	fig.autofmt_xdate()
+	def autolabel(barChart):
+		for bar in barChart:
+			height = bar.get_height()
+			ax.text(bar.get_x() + bar.get_width()/2, 1.01*height,'%d'%int(height), ha = 'center', va = 'bottom')
+	autolabel(barChart)
 	p.show()
 	
 
@@ -70,7 +75,7 @@ def levelSort(filename,level):
 	return barPlot(y, group_labels)
 
 
-#levelSort(filename, "E")
+levelSort(filename, "E")
 
 
 
