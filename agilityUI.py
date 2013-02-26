@@ -1,4 +1,21 @@
 from agility import *
+from urllib2 import Request, urlopen, URLError
+
+nadacnum = raw_input("Good Day!, please enter you dog's NADAC number")
+
+request= Request("http://www.nadac.com/afrm/ph-to-csv.asp?regnum=" + nadacnum)
+try:
+	response = urlopen(request)
+	points = response.read()
+	f = open('points.csv', 'w+')
+	f.write(points)
+	f.close()
+
+
+except URLError, e:
+	print "Got and error code:", e
+
+dog_name = raw_input("What is your dog's name?")
 
 
 
