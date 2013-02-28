@@ -2,6 +2,35 @@ import csv
 import numpy
 import pylab as p
 import time
+from urllib2 import Request, urlopen, URLError
+import os
+
+dog_name = raw_input("Good Day!, please enter your dog's name?")
+nadacnum = raw_input("Please enter " + dog_name + "'s" + " NADAC number")
+
+while True:
+
+	request= Request("http://www.nadac.com/afrm/ph-to-csv.asp?regnum=" + nadacnum)
+
+	try:
+		print "Retrieving " + dog_name + "'s" + " records..."
+		response = urlopen(request)
+		points = response.read()
+		f = open('points.csv', 'w+')
+		f.write(points)
+		f.close()
+
+
+	except URLError, e:
+		print "Got and error code:", e
+
+	b = os.path.getsize('points.csv')
+	if b >0:
+		break
+	else:
+		nadacnum = raw_input("That was not a valid NADAC number, please try again")
+	
+
 
 
 
@@ -55,16 +84,28 @@ def levelSort(filename,level):
 
 		if level + "AC" in class_level:
 			regular.append(class_level)
+		elif level + "AS" in class_level:
+			regular.append(class_level)
 		elif level + "JC" in class_level:
+			jumpers.append(class_level)
+		elif level + "JS" in class_level:
 			jumpers.append(class_level)
 		elif level + "CC" in class_level:
 			chances.append(class_level)
+		elif level + "CS" in class_level:
+			chances.append(class_level)
 		elif "TN-" + level in class_level:
+			tunnelers.append(class_level)
+		elif "TNS-" + level in class_level:
 			tunnelers.append(class_level)
 		elif "TG-" + level in class_level:
 			tnG.append(class_level)
+		elif "TGS-" + level in class_level:
+			tnG.append(class_level)
 		elif "WV-" + level in class_level:
 			weavers.append(class_level)
+		elif "WVS-" + level in class_level:
+			weaver.append(class_level)
 	if level == "E":
 		prefix = "Elite"
 	elif level == "O":
@@ -89,22 +130,22 @@ def classSort(filename, class_type):
     Open = []
     Novice = []
     if class_type == 'regular':
-    	s = "AC"
+    	p,s = "AC","AS"
     elif class_type == 'jumpers':
-    	s = "JC"
+    	p,s = "JC","JS"
     elif class_type == 'chances':
-    	s = "CC"
+    	p,s = "CC","CS"
     elif class_type == 'tunnelers':
-    	s = "TN-"
+    	p,s = "TN-","TNS-"
     elif class_type == "touch 'n go":
-    	s = "TG-"
+    	p,s = "TG-","TGS-"
     elif class_type == 'weavers':
-    	s = "WV-"
+    	p,s = "WV-","WVS-"
     elif class_type == 'hoopers':
-    	s = "HP-"
+    	p,s = "HP-","HPS-"
     for row in reader:
     	class_level = row[1]
-    	if s in class_level and "X" not in class_level:
+    	if s in class_level or p in class_level and "X" not in class_level:
     		if "E" in class_level:
     			Elite.append(class_level)
     		elif "O" in class_level:
@@ -195,17 +236,19 @@ def nadacYear(filename, start_year, end_year):
 	for e in class_date:
 		class_level = e[0:-6]
 
-		if "AC" in class_level:
+		if "A" in class_level:
 			regular.append(class_level)
-		elif "JC" in class_level:
+		elif "J" in class_level:
 			jumpers.append(class_level)
 		elif "CC" in class_level:
 			chances.append(class_level)
-		elif "TN-" in class_level:
+		elif "CS" in class_level:
+			chances.append(class_level)
+		elif "TN" in class_level:
 			tunnelers.append(class_level)
-		elif "TG-" in class_level:
+		elif "TG" in class_level:
 			tnG.append(class_level)
-		elif "WV-" in class_level:
+		elif "WV" in class_level:
 			weavers.append(class_level)
 	eRegular = []
 	oRegular = []
@@ -300,17 +343,19 @@ def lifetimeSort(filename):
 	weavers = []
 	for row in reader:
 		class_level = row[1]
-		if "AC" in class_level:
+		if "A" in class_level:
 			regular.append(class_level)
-		elif "JC" in class_level:
+		elif "J" in class_level:
 			jumpers.append(class_level)
 		elif "CC" in class_level:
 			chances.append(class_level)
-		elif "TN-" in class_level:
+		elif "CS" in class_level:
+			chances.append(class_level)
+		elif "TN" in class_level:
 			tunnelers.append(class_level)
-		elif "TG-" in class_level:
+		elif "TG" in class_level:
 			tnG.append(class_level)
-		elif "WV-" in class_level:
+		elif "WV" in class_level:
 			weavers.append(class_level)
 	eRegular = []
 	oRegular = []
