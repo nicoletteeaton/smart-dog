@@ -8,7 +8,7 @@ from agility import *
 
 while True:
 	print "How would you like to view " + dog_name + "'s records?"
-	print "Your choices are: 'level', 'class', 'trial', 'nadacyear', 'lifetime'"
+	print "Your choices are:" + '\n' + 'level' + '\n' + 'class' + '\n' + 'trial' + '\n' + 'nadacyear' + '\n' + 'lifetime'
 	print "If you are finished, please type 'exit'"
 	question = raw_input("Please sort " + dog_name + "'s records by:")
 
@@ -57,12 +57,14 @@ while True:
 	elif question.lower() == 'nadacyear':
 		current_year = time.gmtime()[0]
 		while True:
-			s_year = raw_input("NADAC years begin on August 1st, enter the year you'd like to look up in the form YYYY" + "\n" + "or 'B' to go back to choices" + "\n")
-			if s_year == 'b':
+			start_year = raw_input("NADAC years begin on August 1st," 
+			" enter the year you'd like to look up in the form YYYY" + 
+			"\n" + "or 'B' to go back to choices" + "\n")
+			if start_year == 'b':
 				break
-			elif int(s_year) in range(1993, current_year + 1):
-				e_year = int(s_year) + 1
-				nadacYear(filename, s_year, e_year)
+			elif int(start_year) in range(1993, current_year + 1):
+				end_year = int(start_year) + 1
+				nadacYear(filename, start_year, end_year)
 			else:
 				print "Please enter a valid year"
 
@@ -74,6 +76,9 @@ while True:
 	elif question.lower() == 'exit':
 		print "Good Day!"
 		break
+		
+	else:
+		print "I didn't understand that, please try again"
 		
 
 
