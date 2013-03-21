@@ -5,8 +5,8 @@ import time
 from urllib2 import Request, urlopen, URLError
 import os
 
-dog_name = raw_input("Good Day!, please enter your dog's name?")
-nadacnum = raw_input("Please enter " + dog_name + "'s" + " NADAC number")
+dog_name = raw_input("Good Day!, please enter your dog's name?" + " ")
+nadacnum = raw_input("Please enter " + dog_name + "'s" + " NADAC number:" + " ")
 
 while True:
 
@@ -105,7 +105,7 @@ def levelSort(filename,level):
 		elif "WV-" + level in class_level:
 			weavers.append(class_level)
 		elif "WVS-" + level in class_level:
-			weaver.append(class_level)
+			weavers.append(class_level)
 	if level == "E":
 		prefix = "Elite"
 	elif level == "O":
@@ -178,8 +178,8 @@ def clubSort(filename):
 	for row in reader:
 		trial = row[8]
 		clubs.append(trial)
-	s = sorted(clubs)
-	for e in s:
+	sorted_list = sorted(clubs[1:])   ##  Removes the column label "Host Club" from list
+	for e in sorted_list:
 		split = e.split(' ')
 		split_list.append(split)
 	while next <= len(split_list):
@@ -193,7 +193,7 @@ def clubSort(filename):
 	y = totals
 	return barPlot(y, group_labels)
 	
-#clubSort(filename)
+#clubSort('points.csv')
 
 
 
@@ -312,7 +312,7 @@ def nadacYear(filename, start_year, end_year):
 			nWeavers.append(i)
 	
 
-	y = len(eRegular), len(oRegular), len(nRegular), len(eJumpers), len(oJumpers), len(nJumpers),len(eChances), len(oChances), len(nChances), len(eTunnelers), len(oTunnelers), len(nTunnelers),len(etnG), len(otnG), len(ntnG), len(eWeavers), len(oWeavers), len(nWeavers)
+	y = len(eRegular), len(oRegular), len(nRegular),len(eJumpers), len(oJumpers), len(nJumpers),len(eChances), len(oChances), len(nChances),len(eTunnelers), len(oTunnelers), len(nTunnelers),len(etnG), len(otnG), len(ntnG),len(eWeavers), len(oWeavers), len(nWeavers)
 	group_labels = [ "Elite Regular", "Open Regular", "Novice Regular", 
 					"Elite Jumpers", "Open Jumpers", "Novice Jumpers",
 					"Elite Chances", "Open Chances", "Novice Chances",
@@ -418,7 +418,8 @@ def lifetimeSort(filename):
 		elif i[-1] == "N":
 			nWeavers.append(i)
 	
-	y = len(eRegular), len(oRegular), len(nRegular), len(eJumpers), len(oJumpers), len(nJumpers),len(eChances), len(oChances), len(nChances), len(eTunnelers), len(oTunnelers), len(nTunnelers),len(etnG), len(otnG), len(ntnG), len(eWeavers), len(oWeavers), len(nWeavers)
+	y = len(eRegular), len(oRegular), len(nRegular),len(eJumpers), len(oJumpers), len(nJumpers),len(eChances), len(oChances), len(nChances), len(eTunnelers), len(oTunnelers), len(nTunnelers),len(etnG), len(otnG), len(ntnG), len(eWeavers), len(oWeavers), len(nWeavers)
+	
 	group_labels = [ "Elite Regular", "Open Regular", "Novice Regular", 
 					"Elite Jumpers", "Open Jumpers", "Novice Jumpers",
 					"Elite Chances", "Open Chances", "Novice Chances",
