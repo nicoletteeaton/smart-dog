@@ -282,156 +282,61 @@ def nadacYear(start_year, end_year):
 	of Qs per class and per level for the
 	specified NADAC year,  NADAC year is 
 	from August 1 - July 31"""
-start_year = 2011
-end_year = 2012
-# convert start and end year to strings in YY format
-start_year = str(start_year)[2:]
-end_year = str(end_year)[2:]
-# list of months to include for start and end years
-start_year_month = ["Aug", "Sep", "Oct", "Nov", "Dec"]
-end_year_month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"]
-# make list_of_tuples = (nadac_class, Mon-YY)
+	
+	# convert start and end year to strings in YY format
+	start_year = str(start_year)
+	end_year = str(end_year)
+
+	# make list_of_tuples = (nadac_class, Date Earned)
+	list_of_tuples = []
+	parsed_data =  parse(filename, ",")
+	for item in parsed_data:
+		tuple = (item["Class"], item["Date Earned"])
+		list_of_tuples.append(tuple)
+	# have list_of_tuples which contains all Qs
+	# need to pull tuples that contain start_year and end_year
+	# make a list of item[0] in tuple (class name)
+	class_name = []
+	for item in list_of_tuples:
+		if start_year in item[1]:
+			class_name.append(item[0])
+		elif end_year in item[1]:
+			class_name.append(item[0])
+
+	# set up counter for class_name list
+	q_count = [(x, class_name.count(x)) for x in set(class_name)]
+	print q_count
+	# set up bar plot
+	y = []
+	group_labels = []
+	for item in q_count:
+		group_labels.append(item[0])
+		y.append(item[1])
+	return barPlot(y, group_labels)
+
+	
+
+def platinumSort():
+	""" Returns a plot showing the number
+	of platinum Qs per class for the lifetime
+	of the dog"""
+# make list_of_tuples = (nadac_class, Platinum)
 list_of_tuples = []
 parsed_data =  parse(filename, ",")
 for item in parsed_data:
-	tuple = (item["Class"], item["Host Club"][-6:])
+	tuple = (item["Class"], item["Platinum"])
 	list_of_tuples.append(tuple)
 
-# look for start_year, and start_year months
-# make new list of tuples, one for start year Qs
-# one for end year Qs
-start_year_list = []
-end_year_list = []
-for item in list_of_tuples:
-	if start_year in item[1]:
-		#print item
-		for mon in start_year_month:
-			if mon in item[1]:
-				start_year_list.append(item)
-			print start_year_list
-	
-#nadacYear(2010,2011)
-		
+# need to remove Qs that were not platinum runs
+empty = []
+platinum_list = []
 
-def nadacYear(filename, start_year, end_year):
-	""" Returns a chart showing the number of Qs per class and per level for the specified NADAC year"""
-	f = open(filename, 'rb')
-	reader = csv.reader(f)
-	year1 = str(start_year)[2:]
-	year2 = str(end_year)[2:]
-	month1 = ["Aug", "Sep", "Oct", "Nov", "Dec"]
-	month2 = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"]
-	dates = []
-	nyear1 = []
-	nyear2 = []
-	regular = []
-	jumpers = []
-	chances = []
-	tunnelers = []
-	tnG = []
-	weavers = []
-	for row in reader:
-		date = row[8][-6:]
-		class_level = row[1]
-		dates.append(class_level +  ' ' + date)
-		#print dates
-	for e in dates:
-		if year1 in e:
-			for m in month1:
-				if m in e:
-					nyear1.append(e)
-		elif year2 in e:
-			for m in month2:
-				if m in e:
-					nyear2.append(e)
-	class_date = nyear1 + nyear2
-	for e in class_date:
-		class_level = e[0:-6]
-
-		if "A" in class_level:
-			regular.append(class_level)
-		elif "J" in class_level:
-			jumpers.append(class_level)
-		elif "CC" in class_level:
-			chances.append(class_level)
-		elif "CS" in class_level:
-			chances.append(class_level)
-		elif "TN" in class_level:
-			tunnelers.append(class_level)
-		elif "TG" in class_level:
-			tnG.append(class_level)
-		elif "WV" in class_level:
-			weavers.append(class_level)
-	eRegular = []
-	oRegular = []
-	nRegular = []
-	eJumpers = []
-	oJumpers = []
-	nJumpers = []
-	eChances = []
-	oChances = []
-	nChances = []
-	eTunnelers = []
-	oTunnelers = []
-	nTunnelers = []
-	etnG = []
-	otnG = []
-	ntnG = []
-	eWeavers = []
-	oWeavers = []
-	nWeavers = []
-	for i in regular:
-		if i[0] == "E":
-			eRegular.append(i)
-		elif i[0] == "O":
-			oRegular.append(i)
-		elif i[0] == "N":
-			nRegular.append(i)
-	for i in jumpers:
-		if i[0] == "E":
-			eJumpers.append(i)
-		elif i[0] == "O":
-			oJumpers.append(i)
-		elif i[0] == "N":
-			nJumpers.append(i)
-	for i in chances:
-		if i[0] == "E":
-			eChances.append(i)
-		elif i[0] == "O":
-			oChances.append(i)
-		elif i[0] == "N":
-			nChances.append(i)
-	for i in tunnelers:
-		if i[-2] == "E":
-			eTunnelers.append(i)
-		elif i[-2] == "O":
-			oTunnelers.append(i)
-		elif i[-2] == "N":
-			nTunnelers.append(i)
-	for i in tnG:
-		if i[-2] == "E":
-			etnG.append(i)
-		elif i[-2] == "O":
-			otnG.append(i)
-		elif i[-2] == "N":
-			ntnG.append(i)
-	for i in weavers:
-		if i[-2] == "E":
-			eWeavers.append(i)
-		elif i[-2] == "O":
-			oWeavers.append(i)
-		elif i[-2] == "N":
-			nWeavers.append(i)
-	
-
-	y = len(eRegular), len(oRegular), len(nRegular),len(eJumpers), len(oJumpers), len(nJumpers),len(eChances), len(oChances), len(nChances),len(eTunnelers), len(oTunnelers), len(nTunnelers),len(etnG), len(otnG), len(ntnG),len(eWeavers), len(oWeavers), len(nWeavers)
-	group_labels = [ "Elite Regular", "Open Regular", "Novice Regular", 
-					"Elite Jumpers", "Open Jumpers", "Novice Jumpers",
-					"Elite Chances", "Open Chances", "Novice Chances",
-					"Elite Tunnelers", "Open Tunnelers", "Novice Tunnelers",
-					"Elite Touch 'n Go", "Open Touch 'n Go", "Novice Touch 'n Go",
-					"Elite Weavers", "Open Weavers", "Novice Weavers"]
-	return barPlot(y, group_labels)
+for tuple in list_of_tuples:
+	if tuple[1] == '':
+		empty.append(tuple)
+	else:
+		p.append(tuple)
+print platinum_list
 
 
 
