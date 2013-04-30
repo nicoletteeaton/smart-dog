@@ -1,3 +1,4 @@
+
 from collections import Counter
 from urllib2 import Request, urlopen, URLError
 import csv
@@ -6,8 +7,35 @@ import pylab as p
 import time
 import os
 
-filename = "points-10-01124.csv"
-dog_name = "Canon"
+
+
+dog_name = raw_input("Good Day!, please enter your dog's name?" + " ")
+nadacnum = raw_input("Please enter " + dog_name + "'s" + " NADAC number:" + " ")
+
+while True:
+
+	request= Request("http://www.nadac.com/afrm/ph-to-csv.asp?regnum=" + nadacnum)
+
+	try:
+		print "Retrieving " + dog_name + "'s" + " records..."
+		response = urlopen(request)
+		points = response.read()
+		f = open('points.csv', 'w+')
+		f.write(points)
+		f.close()
+
+
+	except URLError, e:
+		print "Got and error code:", e
+
+	b = os.path.getsize('points.csv')
+	if b >0:
+		break
+	else:
+		nadacnum = raw_input("That was not a valid NADAC number, please try again")
+
+filename = 'points.csv'
+
 def parse(filename, delimiter):
     """ Parses the csv points file to a JSON-like object"""
     opened_file = open(filename)
@@ -26,9 +54,6 @@ def parse(filename, delimiter):
 
     return parsed_data
 
-parsed_data =  parse(filename, ",")
-count_host_club = Counter(item["Host Club"][:-6] for item in parsed_data)
-count_by_class = Counter(item["Class"] for item in parsed_data)
 
 #for item in parsed_data:
 #	nadac_class = item["Class"]
@@ -229,6 +254,7 @@ def nadac_classSort(nadac_class):
 		return hoopers_classSort()
 	elif nadac_class == "extreme games":
 		return extremeGames_classSort()
+
 		
 		
 def levelSort(level):
@@ -245,7 +271,8 @@ def levelSort(level):
 			group_labels.append(key)
 			y.append(count_by_class[key])
 	return barPlot(y, group_labels)
-		
+	
+# levelSort doesn't work properly for novice because "N" is in TN-E, etc		
 		
 	
 
@@ -305,7 +332,6 @@ def nadacYear(start_year, end_year):
 
 	# set up counter for class_name list
 	q_count = [(x, class_name.count(x)) for x in set(class_name)]
-	print q_count
 	# set up bar plot
 	y = []
 	group_labels = []
@@ -320,23 +346,73 @@ def platinumSort():
 	""" Returns a plot showing the number
 	of platinum Qs per class for the lifetime
 	of the dog"""
-# make list_of_tuples = (nadac_class, Platinum)
-list_of_tuples = []
-parsed_data =  parse(filename, ",")
-for item in parsed_data:
-	tuple = (item["Class"], item["Platinum"])
-	list_of_tuples.append(tuple)
+	# make list_of_tuples = (nadac_class, Platinum)
+	list_of_tuples = []
+	parsed_data =  parse(filename, ",")
+	for item in parsed_data:
+		tuple = (item["Class"], item["Platinum"])
+		list_of_tuples.append(tuple)
 
-# need to remove Qs that were not platinum runs
-empty = []
-platinum_list = []
+	# need to remove Qs that were not platinum runs
+	empty = []
+	platinum_list = []
 
-for tuple in list_of_tuples:
-	if tuple[1] == '':
-		empty.append(tuple)
-	else:
-		p.append(tuple)
-print platinum_list
+	for tuple in list_of_tuples:
+		if tuple[1] == '':
+			empty.append(tuple)
+		else:
+			platinum_list.append(tuple)
+	
+	# count the types of platinum runs and put in dict
+	count_platinum = Counter(item[0] for item in platinum_list)
+	# generate plot
+	group_labels = []
+	y = []
+	for key in count_platinum:
+		group_labels.append(key)
+		y.append(count_platinum[key])
+	return barPlot(y, group_labels)
+	
+	
+
+def titleSorthelper():
+	"""will sort parsed data by title
+	and return a list of titles earned,
+	helper function for title sorting """
+	parsed_data =  parse(filename, ",")
+	count_by_title = Counter(item["Title"] for item in parsed_data)
+	titles = []
+	for key in count_by_title:
+		titles.append(key)
+	sorted_titles = sorted(titles)
+	return sorted_titles
+
+
+def natchSort():
+	"""will print off a list of
+	NATCH points achieved"""
+	all_titles = titleSorthelper()
+	 
+	for title in all_titles:
+	 if "NATCH" in title:
+	 	print title
+
+
+
+def titleSort():
+	"""will sort parsed data by title
+	and return a list of all titles earned
+	except for NATCH titles"""
+	
+	all_titles = titleSorthelper()
+	
+	for title in all_titles:
+		if "NATCH" not in title:
+			print title
+
+
+	
+
 
 
 

@@ -1,4 +1,4 @@
-from agility import *
+from agility_parse import *
 
 
 
@@ -8,7 +8,7 @@ from agility import *
 
 while True:
 	print "How would you like to view " + dog_name + "'s records?"
-	print "Your choices are:" + '\n' + 'level' + '\n' + 'class' + '\n' + 'trial' + '\n' + 'nadacyear' + '\n' + 'lifetime'
+	print "Your choices are:" + '\n' + 'level' + '\n' + 'class' + '\n' + 'trial' + '\n' + 'nadacyear' + '\n' + 'lifetime'+ '\n' + 'platinum' + '\n' + 'natch' + '\n' + 'title'
 	print "If you are finished, please type 'exit'"
 	question = raw_input("Please sort " + dog_name + "'s records by:")
 
@@ -17,11 +17,11 @@ while True:
 			level = raw_input("Please choose a level by entering:" + "\n" + "'E' for Elite" + "\n" + "'O' for Open" + "\n" + "'N' for Novice" + "\n" + "or 'B' to go back to choices" + "\n")
 			input = level.upper()
 			if input == "E":
-				levelSort(filename, input)
+				levelSort(input)
 			elif input == "O":
-				levelSort(filename, input)
+				levelSort(input)
 			elif input == "N":
-				levelSort(filename, input)
+				levelSort(input)
 			elif input == "B":
 				break
 					
@@ -33,26 +33,26 @@ while True:
 			class_level = raw_input("Please choose a class by entering one of the following:" + "\n" + "'R' for Regular" + "\n" + "'J' for Jumpers" + "\n" + "'C' for Chances" + "\n" + "'TN' for Tunnelers" + "\n" + "'TG' for Touch 'n Go" + "\n" + "'W' for Weavers" + "\n" + "'H' for Hoopers" + "\n" "or 'B' to go back to choices" + "\n")
 			input = class_level.lower()
 			if input == "r":
-				classSort(filename, 'regular')
+				nadac_classSort('regular')
 			elif input == "j":
-				classSort(filename, 'jumpers')
+				nadac_classSort('jumpers')
 			elif input == "c":
-				classSort(filename, 'chances')
+				nadac_classSort('chances')
 			elif input == "tn":
-				classSort(filename, 'tunnelers')
+				nadac_classSort('tunnelers')
 			elif input == "tg":
-				classSort(filename, "touch 'n go")
+				nadac_classSort("touch 'n go")
 			elif input == "w":
-				classSort(filename, 'weavers')
+				nadac_classSort('weavers')
 			elif input == "h":
-				classSort(filename, 'hoopers')
+				nadac_classSort('hoopers')
 			elif input == "b":
 				break
 			else:
 				print "That didn't make sense"
 
 	elif question.lower() == 'trial':
-		clubSort(filename)
+		clubSort()
 
 	elif question.lower() == 'nadacyear':
 		current_year = time.gmtime()[0]
@@ -64,13 +64,21 @@ while True:
 				break
 			elif int(start_year) in range(1993, current_year + 1):
 				end_year = int(start_year) + 1
-				nadacYear(filename, start_year, end_year)
+				nadacYear(start_year, end_year)
 			else:
 				print "Please enter a valid year"
 
 	elif question.lower() == 'lifetime':
-		lifetimeSort(filename)
+		lifetimeSort()
+		
+	elif question.lower() == 'platinum':
+		platinumSort()
 	
+	elif question.lower() == 'natch':
+		natchSort()
+		
+	elif question.lower() == 'title':
+		titleSort()
 
 
 	elif question.lower() == 'exit':
