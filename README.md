@@ -13,3 +13,5 @@ numpy: http://www.numpy.org
 matplotlib: http://matplotlib.org/downloads.html
 
 Run agilityUI.py
+
+Example "NADAC numbers": 10-01124 and 02-03869
